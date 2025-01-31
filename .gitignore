@@ -1,0 +1,5 @@
+out/
+build/
+docs/
+vcpkg_installed/
+.vs/
