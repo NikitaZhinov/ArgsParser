@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "option.h"
 
@@ -6,7 +6,7 @@
 
 namespace args {
     /**
-     * @brief The main class.
+     * @brief The main class for manipulating command line arguments..
      */
     class ArgsParser {
         /**

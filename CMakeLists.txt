@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+﻿cmake_minimum_required(VERSION 3.29)
 
 project(ArgsParser VERSION 1.0 LANGUAGES CXX)
 
@@ -20,7 +20,7 @@ else()
 	endif()
 endif()
 
-add_library(${PROJECT_NAME} STATIC "include/args-parser.h" "src/args-parser.cpp" "include/option.h" "src/option.cpp")
+add_library(${PROJECT_NAME} STATIC "include/args-parser/args-parser.h" "src/args-parser.cpp" "include/args-parser/option.h" "src/option.cpp")
 
 find_package(Doxygen REQUIRED)
 if(DOXYGEN_FOUND)
@@ -38,7 +38,7 @@ include(CTest)
 enable_testing()
 find_package(GTest CONFIG REQUIRED)
 
-add_executable(${PROJECT_NAME}Tests "test/test.cpp"  "test/args-parser-test.cpp")
+add_executable(${PROJECT_NAME}Tests "test/test.cpp" "test/args-parser-test.cpp")
 target_link_libraries(${PROJECT_NAME}Tests PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 target_link_libraries(${PROJECT_NAME}Tests PRIVATE ${PROJECT_NAME})
 
