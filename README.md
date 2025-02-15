@@ -1,4 +1,4 @@
-# ArgsParser
+﻿# ArgsParser
 A library for manipulating command line arguments.
 
 ## About
@@ -11,7 +11,7 @@ An ArgsParser class object is created, to which argc and argv are passed. Then p
 main.cpp:
 ```cpp
 #include <iostream>
-#include <args-parser.h>
+#include <args-parser/args-parser.h>
 
 class VersionOption : public args::IOption {
 public:
@@ -45,8 +45,17 @@ cmake_minimum_required(VERSION 3.8)
 
 project(MyApp)
 
+include(FetchContent)
+FetchContent_Declare(
+    ArgsParser
+    GIT_REPOSITORY "https://github.com/NikitaZhinov/ArgsParser"
+    GIT_TAG v1.0
+)
+FetchContent_MakeAvailable(ArgsParser)
+
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ArgsParser)
+target_include_directories(${PROJECT_NAME} PRIVATE ${ArgsParser_SOURCE_DIR}/include)
 ```
 Run:
 ```bash
