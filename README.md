@@ -41,7 +41,7 @@ int main(int argc, const char** argv) {
 ```
 CMakeLists.txt:
 ```cmake
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.20)
 
 project(MyApp)
 

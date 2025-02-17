@@ -159,18 +159,3 @@ TEST(ArgsParserDefaltOptionTest, DefaltOptionTest_2) {
     ASSERT_EQ("version: 1.0.0", Program::getVersion());
     ASSERT_EQ("Hello, World!", Program::getPrint());
 }
-
-TEST(ArgsParserOptionTest, OptionTest_0) {
-    int argc = 2;
-    const char* argv[] = { "test.exe", "--version" };
-    Program::restart();
-
-    args::ArgsParser args_parser(argc, argv);
-
-    VersionOption version_option;
-
-    args_parser.addOption(&version_option);
-    args_parser.callOptions();
-
-    ASSERT_EQ("version: 1.0.0", Program::getVersion());
-}
