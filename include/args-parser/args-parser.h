@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "option.h"
 
@@ -9,32 +9,18 @@ namespace args {
      * @brief The main class for manipulating command line arguments..
      */
     class ArgsParser {
-        /**
-         * @brief Number of command line arguments.
-         */
         int _argc;
 
-        /**
-         * @brief Pointer to command line arguments.
-         */
         const char** _argv;
 
-        /**
-         * @brief A list of options that can be found in command line arguments.
-         * It is recommended that the first item in the list be the default value.
-         * For more information, see Readme.md on GitHub.
-         */
         std::list<IOption*> _option_list;
 
-        /**
-         * @brief Whether there is a default value.
-         * For the "default value", see Readme.md on GitHub.
-         */
         bool _default_option_exist;
 
     public:
         /**
-         * @brief Initialize the _argv = argc, _argv = argv, _default_option_exist = false field.
+         * @brief Initialize the _argv = argc, _argv = argv, _default_option_exist = false
+         * field.
          */
         ArgsParser(int argc, const char** argv);
 

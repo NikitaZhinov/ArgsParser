@@ -7,11 +7,6 @@ namespace args {
      * @brief A class for options.
      */
     class IOption {
-        /**
-         * @brief The name of the option.
-         * If the name is empty, then the option is considered the default option.
-         * For more information, see Readme.md on GitHub.
-         */
         std::string _name;
 
     protected:

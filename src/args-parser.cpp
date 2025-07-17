@@ -1,6 +1,9 @@
-﻿#include "../include/args-parser/args-parser.h"
+#include "../include/args-parser/args-parser.h"
 
-args::ArgsParser::ArgsParser(int argc, const char** argv) : _argc(argc), _argv(argv), _default_option_exist(false) {}
+args::ArgsParser::ArgsParser(int argc, const char** argv) :
+    _argc(argc),
+    _argv(argv),
+    _default_option_exist(false) {}
 
 std::list<args::IOption*> args::ArgsParser::getOptions() const {
     return _option_list;

@@ -1,4 +1,4 @@
-﻿#include "../include/args-parser/args-parser.h"
+#include "../include/args-parser/args-parser.h"
 
 #include <gtest/gtest.h>
 #include <format>
