@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.29)
 
 project(ArgsParser VERSION 1.0 LANGUAGES CXX)
 
@@ -38,7 +38,7 @@ include(CTest)
 enable_testing()
 find_package(GTest CONFIG REQUIRED)
 
-add_executable(${PROJECT_NAME}Tests "test/test.cpp" "test/args-parser-test.cpp")
+add_executable(${PROJECT_NAME}Tests "test/test.cpp" "test/dependences.cpp" "test/option-test.cpp" "test/default-test.cpp" "test/exception-test.cpp")
 target_link_libraries(${PROJECT_NAME}Tests PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 target_link_libraries(${PROJECT_NAME}Tests PRIVATE ${PROJECT_NAME})
 

@@ -1,34 +1,67 @@
 #include "../include/args-parser/args-parser.h"
 
+#include <stdexcept>
+
+bool args::ArgsParser::_checkNotEnoughArguments(int count, int index) {
+    for (int i = 1; i <= count; ++i) {
+        if (_option_list.find(_argv[index + i]) != _option_list.end()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void args::ArgsParser::_validateOption(const std::unique_ptr<IOption>& option, int& i) {
+    if (_argc <= option->getNumberOfArgummentsUsed() + i ||
+        _checkNotEnoughArguments(option->getNumberOfArgummentsUsed(), i)) {
+        throw std::out_of_range("not enough arguments");
+    }
+    i += option->getNumberOfArgummentsUsed();
+}
+
+void args::ArgsParser::_callOption(const std::unique_ptr<IOption>& option, int& i) {
+    option->call(&_argv[i]);
+    i += option->getNumberOfArgummentsUsed();
+}
+
+void args::ArgsParser::_validateOptions() {
+    for (int i = 1; i < _argc; ++i) {
+        auto option_it = _option_list.find(_argv[i]);
+        if (option_it != _option_list.end()) {
+            _validateOption(option_it->second, i);
+        } else if (_default_option != nullptr) {
+            _validateOption(_default_option, i);
+        } else {
+            throw std::invalid_argument("undefined option");
+        }
+    }
+}
+
+void args::ArgsParser::_callOptions() {
+    for (int i = 1; i < _argc; ++i) {
+        auto option_it = _option_list.find(_argv[i]);
+        if (option_it != _option_list.end()) {
+            _callOption(option_it->second, i);
+        } else {
+            _callOption(_default_option, i);
+        }
+    }
+}
+
 args::ArgsParser::ArgsParser(int argc, const char** argv) :
     _argc(argc),
     _argv(argv),
-    _default_option_exist(false) {}
+    _default_option(nullptr) {}
 
-std::list<args::IOption*> args::ArgsParser::getOptions() const {
-    return _option_list;
-}
-
-void args::ArgsParser::addOption(IOption* option) {
-    _option_list.push_back(option);
+void args::ArgsParser::addOption(std::unique_ptr<IOption>&& option) {
+    if (_default_option == nullptr && option->getName() == std::string()) {
+        _default_option = std::move(option);
+    } else {
+        _option_list.insert(std::pair(option->getName(), std::move(option)));
+    }
 }
 
 void args::ArgsParser::callOptions() {
-    if (_option_list.front()->getName().empty()) {
-        _default_option_exist = true;
-    }
-
-    for (int i = 1; i < _argc; ++i) {
-        bool is_option = false;
-        for (IOption* option : _option_list) {
-            if (option->getName() == _argv[i]) {
-                option->call(&_argv[i]);
-                is_option = true;
-                break;
-            }
-        }
-        if (!is_option && _default_option_exist) {
-            _option_list.front()->call(&_argv[i]);
-        }
-    }
+    _validateOptions();
+    _callOptions();
 }

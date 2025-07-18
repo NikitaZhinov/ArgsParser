@@ -1,4 +1,4 @@
-﻿# ArgsParser
+# ArgsParser
 A library for manipulating command line arguments.
 
 ## About
@@ -13,27 +13,46 @@ main.cpp:
 #include <iostream>
 #include <args-parser/args-parser.h>
 
-class VersionOption : public args::IOption {
-public:
-  VersionOption() { this->setName("--version"); }
-
-  void call(const char** args) const override { std::cout << "Your application version: 1.0.0" << std::endl; }
-};
-
 class DefaultOption : public args::IOption {
 public:
-  void call(const char** args) const override { std::cout << "Hello " << args[0] << std::endl; }
+  void call(const char** args) const override {
+    std::cout << "Hello " << args[0] << std::endl;
+  }
+};
+
+class VersionOption : public args::IOption {
+public:
+  VersionOption() {
+    this->setName("--version");
+  }
+
+  void call(const char** args) const override {
+    std::cout << "Your application version: 1.0.0" << std::endl;
+  }
+};
+
+class PrintOption : public args::IOption {
+public:
+  PrintOption() {
+    this->setName("--print");
+    this->setNumberOfArgummentsUsed(3);
+  }
+
+  void call(const char** args) const override {
+    for (int i = 1; i <= getNumberOfArgummentsUsed(); ++i)
+      std::cout << args[i] << " ";
+    std::cout << std::endl;
+  }
 };
 
 int main(int argc, const char** argv) {
   // create ArgsParser object
   args::ArgsParser args_parser(argc, argv);
 
-  // create options
-  VersionOption version_option;
-
   // add options
-  args_parser.addOption(&version_option);
+  args_parser.addOption<DefaultOption>();
+  args_parser.addOption<VersionOption>();
+  args_parser.addOption<PrintOption>();
 
   // call options
   args_parser.callOptions();
@@ -47,9 +66,9 @@ project(MyApp)
 
 include(FetchContent)
 FetchContent_Declare(
-    ArgsParser
-    GIT_REPOSITORY "https://github.com/NikitaZhinov/ArgsParser"
-    GIT_TAG v1.0
+  ArgsParser
+  GIT_REPOSITORY "https://github.com/NikitaZhinov/ArgsParser"
+  GIT_TAG v2.0
 )
 FetchContent_MakeAvailable(ArgsParser)
 
@@ -59,10 +78,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${ArgsParser_SOURCE_DIR}/incl
 ```
 Run:
 ```bash
-./MyApp --version World
+./MyApp --print Fish like water --version World
 ```
 Output:
 ```
+Fish like water
 Your application version: 1.0.0
 Hello World
 ```

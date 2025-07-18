@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 namespace args {
     /**
@@ -8,12 +9,22 @@ namespace args {
      */
     class IOption {
         std::string _name;
+        int _number_of_arguments_used = 0;
 
     protected:
         /**
          * @brief Sets a new name for the option.
+         *
+         * @param name - the new name of the option.
          */
         void setName(const std::string& name);
+
+        /**
+         * @brief Sets a number of arguments used.
+         *
+         * @param n - a number of arguments used.
+         */
+        void setNumberOfArgummentsUsed(int n);
 
     public:
         /**
@@ -23,8 +34,17 @@ namespace args {
 
         /**
          * @brief Returns the option name.
+         * 
+         * @return std::string - the option name.
          */
         std::string getName() const;
+
+        /**
+         * @brief Returns a number of arguments used.
+         * 
+         * @return int - a number of arguments used.
+         */
+        int getNumberOfArgummentsUsed() const;
 
         /**
          * @brief A virtual method for determining what an option will do.
